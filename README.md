@@ -11,6 +11,9 @@ the terminal.
 * Run `gradle bootrun` to build and run the project or run the project from your ide(make sure you build it before running)
 
 
+ Url fuentes 
+https://auth0.com/blog/implementing-jwt-authentication-on-spring-boot/
+
 run with gradle bootrun
 
 
