@@ -9,3 +9,48 @@ the terminal.
 * Make sure you have Java 10 installed on your system. [Get it here](http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html)
 * Clone the repository using the command `git clone https://github.com/vladimirfomene/springboot-auth-updated.git`
 * Run `gradle bootrun` to build and run the project or run the project from your ide(make sure you build it before running)
+
+
+run with gradle bootrun
+
+
+Pasos:
+ 1-) Crear un usuario con verbo post
+ 
+
+ # registers a new user
+curl -H "Content-Type: application/json" -X POST -d '{
+    "username": "admin",
+    "password": "password"
+}' http://localhost:8080/users/sign-up
+
+Si se hace con postman, el json esta en la carpeta test-json
+          sign-up.json, se agrega en body/binary. escojes el archivo
+
+2-) Se loguea el usuario para obtener el token
+
+# logs into the application (JWT is generated)
+curl -i -H "Content-Type: application/json" -X POST -d '{
+    "username": "admin",
+    "password": "password"
+}' http://localhost:8080/login
+
+Si se hace con postman, el json esta en la carpeta test-json en login.json
+
+3-) Se  crea una tarea con el token y verbo post
+
+# issue a POST request, passing the JWT, to create a task
+# remember to replace xxx.yyy.zzz with the JWT retrieved above
+curl -H "Content-Type: application/json" \
+-H "Authorization: Bearer xxx.yyy.zzz" \
+-X POST -d '{
+    "description": "Buy watermelon"
+}'  http://localhost:8080/tasks
+
+Si se hace con postman, el json esta en la carpeta test-json en jsonbd.json
+
+4 -) Se lista las tareas 
+
+# issue a new GET request, passing the JWT
+# remember to replace xxx.yyy.zzz with the JWT retrieved above
+curl -H "Authorization: Bearer xxx.yyy.zzz" http://localhost:8080/tasks
