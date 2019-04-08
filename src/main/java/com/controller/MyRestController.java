@@ -1,14 +1,12 @@
 package com.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,16 +19,21 @@ public class MyRestController {
 	 @Autowired
 	    private MyService myService;
 
-	    @RequestMapping(value="/process", method= RequestMethod.POST)
+	  /*  @RequestMapping(value="/process", method= RequestMethod.POST)
 	    public void startProcessInstance() {
 	    	
 	    	Map<String, Object> variables = new HashMap<String, Object>();
     		variables.put("employee", "saymon");
-//    		ProcessInstance processInstance =
-//    		  runtimeService.startProcessInstanceByKey("holidayRequest", variables);
-	    	
 	        myService.startProcess(variables);
 	    }
+	    */
+	    
+	    @RequestMapping(value="/process", method= RequestMethod.POST)
+	    public void startProcessInstance(@RequestBody StartProcessRepresentation startProcessRepresentation) {
+	        myService.startProcess(startProcessRepresentation.getAssignee());
+	    }
+	    
+	    
 
 	    @RequestMapping(value="/tasks", method= RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	    public List<TaskRepresentation> getTasks(@RequestParam String assignee) {
@@ -43,7 +46,18 @@ public class MyRestController {
 	    }
 	    
 	    
-	    //List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup("managers").list();
+	    static class StartProcessRepresentation {
+
+	        private String assignee;
+
+	        public String getAssignee() {
+	            return assignee;
+	        }
+
+	        public void setAssignee(String assignee) {
+	            this.assignee = assignee;
+	        }
+	    }
 	    
 	 
 	    static class TaskRepresentation {

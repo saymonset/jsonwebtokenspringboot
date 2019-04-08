@@ -59,3 +59,15 @@ http://localhost:8080/process
 
 5-) Se lista las tareas asignadas a saymon
 localhost:8080/tasks?assignee=saymon
+
+
+6-) Prbando ejemplo con jpa
+
+We can now start a new process instance, providing the user name in the POST body:
+
+curl -H "Content-Type: application/json" -d '{"assignee" : "jbarrez"}' http://localhost:8080/process
+And the task list is now fetched using the person ID:
+
+curl http://localhost:8080/tasks?assignee=1
+
+[{"id":"12505","name":"my task"}]

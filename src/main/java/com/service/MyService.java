@@ -1,5 +1,7 @@
 package com.service;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.model.Person;
+import com.repository.PersonRepository;
+
 @Service
 public class MyService {
 
@@ -18,11 +23,32 @@ public class MyService {
 
     @Autowired
     private TaskService taskService;
+    
+    @Autowired
+    private PersonRepository personRepository;
 
-    @Transactional
-    public void startProcess() {
-        runtimeService.startProcessInstanceByKey("myProcess");
-        
+   
+    
+    
+    public void startProcess(String assignee) {
+
+        Person person = personRepository.findByUsername(assignee);
+
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("person", person);
+        runtimeService.startProcessInstanceByKey("myProcess", variables);
+    }
+
+    
+    public List<Task> getTasks(String assignee) {
+        return taskService.createTaskQuery().taskAssignee(assignee).list();
+    }
+
+    public void createDemoUsers() {
+        if (personRepository.findAll().size() == 0) {
+            personRepository.save(new Person("jbarrez", "Joram", "Barrez", new Date()));
+            personRepository.save(new Person("trademakers", "Tijs", "Rademakers", new Date()));
+        }
     }
 
     @Transactional
@@ -30,12 +56,6 @@ public class MyService {
         runtimeService.startProcessInstanceByKey("myProcess", var);
         
     }
-    @Transactional
-    public List<Task> getTasks(String assignee) {
-   
-    	return taskService.createTaskQuery().taskAssignee(assignee).list();
-    	//TaskService taskService = runtimeService.getTaskService();
-    	//return null;
-    }
+ 
 
 }
