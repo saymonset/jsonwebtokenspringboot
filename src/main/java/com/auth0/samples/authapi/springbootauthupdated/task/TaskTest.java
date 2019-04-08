@@ -6,15 +6,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Task {
+public class TaskTest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String description;
 
-    protected Task() { }
+    protected TaskTest() { }
 
-    public Task(String description) {
+    public TaskTest(String description) {
         this.description = description;
     }
 

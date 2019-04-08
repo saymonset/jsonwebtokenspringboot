@@ -52,8 +52,10 @@ curl -H "Content-Type: application/json" \
 
 Si se hace con postman, el json esta en la carpeta test-json en jsonbd.json
 
-4 -) Se lista las tareas 
+4 -) 
 
-# issue a new GET request, passing the JWT
-# remember to replace xxx.yyy.zzz with the JWT retrieved above
-curl -H "Authorization: Bearer xxx.yyy.zzz" http://localhost:8080/tasks
+Se crea un proceso, inernamente colocan al empleado saymon
+http://localhost:8080/process
+
+5-) Se lista las tareas asignadas a saymon
+localhost:8080/tasks?assignee=saymon
