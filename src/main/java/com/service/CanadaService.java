@@ -1,6 +1,4 @@
 package com.service;
-
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dto.StartProcessRepresentation;
 import com.model.Person;
 import com.repository.PersonRepository;
 
 @Service
-public class MyService {
+public class CanadaService {
 
     @Autowired
     private RuntimeService runtimeService;
@@ -30,11 +29,14 @@ public class MyService {
    
     
     
-    public void startProcess(String assignee) {
+    public void startProcess(StartProcessRepresentation startProcessRepresentation) {
 
-    	Person person = personRepository.findByUsername(assignee);
+        Person person = personRepository.findByUsername(startProcessRepresentation.getAssignee());
+
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("person", person);
+        variables.put("format", startProcessRepresentation.getFormat());
+        variables.put("accurancy", startProcessRepresentation.getAccurancy());
         runtimeService.startProcessInstanceByKey("myProcess", variables);
     }
 
@@ -43,13 +45,7 @@ public class MyService {
         return taskService.createTaskQuery().taskAssignee(assignee).list();
     }
 
-    public void createDemoUsers() {
-        if (personRepository.findAll().size() == 0) {
-            personRepository.save(new Person("jbarrez", "Joram", "Barrez", new Date()));
-            personRepository.save(new Person("trademakers", "Tijs", "Rademakers", new Date()));
-            personRepository.save(new Person("rsimon", "Simon", "Rodriguez", new Date()));
-        }
-    }
+   
 
     @Transactional
     public void startProcess(Map<String,Object> var) {
