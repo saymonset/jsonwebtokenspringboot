@@ -5,22 +5,21 @@
     <startEvent id="startevent1" name="Email is received with attached bill">
       <messageEventDefinition messageRef="emailreceived"></messageEventDefinition>
     </startEvent>
-    <serviceTask id="getbillattachment" name="Get Bill Attachment"
-    flowable:class="com.service.BillAttachmentService"></serviceTask>
-    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="getbillattachment"></sequenceFlow>
     <endEvent id="endevent1" name="End"></endEvent>
-    <sequenceFlow id="flow2" sourceRef="getbillattachment" targetRef="endevent1"></sequenceFlow>
+    <businessRuleTask id="businessruletask1" name="Business rule task" flowable:class="com.service.DetermineBillFormat"></businessRuleTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="businessruletask1"></sequenceFlow>
+    <sequenceFlow id="flow2" sourceRef="businessruletask1" targetRef="endevent1"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_myProcess">
     <bpmndi:BPMNPlane bpmnElement="myProcess" id="BPMNPlane_myProcess">
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="100.0" y="180.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="getbillattachment" id="BPMNShape_servicetask1">
-        <omgdc:Bounds height="55.0" width="105.0" x="200.0" y="170.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="350.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="businessruletask1" id="BPMNShape_businessruletask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="200.0" y="170.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
         <omgdi:waypoint x="135.0" y="197.0"></omgdi:waypoint>
