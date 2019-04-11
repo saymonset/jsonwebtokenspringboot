@@ -77,14 +77,11 @@ public class MyService {
 
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("person", person);
-        variables.put("inputVariable1", 1);
         variables.put("format", startProcessRepresentation.getFormat());
         variables.put("accurancy", startProcessRepresentation.getAccurancy());
-        Order order = new Order();
-        order.setItemCount(2);
-        variables.put("order", order);
+       
         
-        ProcessInstance p = runtimeService.startProcessInstanceByKey("myProcess", variables);
+        ProcessInstance p = runtimeService.startProcessInstanceByKey("michaelCenizaProcess", variables);
         ProcessInstanceFlow p1 = new ProcessInstanceFlow();
         p1.setProcessInstanceId(p.getProcessInstanceId());
         p1.setPerson(person);

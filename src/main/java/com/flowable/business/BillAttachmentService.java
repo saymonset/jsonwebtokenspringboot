@@ -19,7 +19,7 @@ public class BillAttachmentService implements JavaDelegate{
 		
 		//log.info("Execute");
 //		Order order = (Order)execution.getVariable("order");
-		log.info( " = format-------------------------3--------------------------------executionId = " + execution.getProcessInstanceId());
+		log.info( " GET BILL ATTACHMENT " );
 
 		
 	}
