@@ -25,9 +25,39 @@
     <sequenceFlow id="flow5" sourceRef="exclusivegateway1" targetRef="servicetask2">
      <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_1" evaluatesToTypeRef="ItemDefinition_144" language="http://www.java.com/java">${outputTextFormat}</conditionExpression>
     </sequenceFlow>
+ 
+ 
     <serviceTask id="servicetask2" name="Parse Bill"
-    flowable:class="com.flowable.business.ParseBillAttachmentService"
-    ></serviceTask>
+    flowable:type="mail"
+     flowable:class="com.flowable.mail.ParseBill">
+     
+       <extensionElements>
+    <flowable:field name="from" stringValue="saymon_set@hotmail.com" />
+    <flowable:field name="to" stringValue="saymon_set@hotmail.com" />
+    <flowable:field name="subject" expression="Your order  has been shipped" />
+    <flowable:field name="html">
+      <flowable:expression>
+        <![CDATA[
+          <html>
+            <body>
+              Hello <br/><br/>
+
+              As of  , your order has been <b>processed and shipped</b>.<br/><br/>
+
+              Kind regards,<br/>
+
+              TheCompany.
+            </body>
+          </html>
+        ]]>
+      </flowable:expression>
+    </flowable:field>
+  </extensionElements>
+     
+     </serviceTask>
+    
+    
+    
     <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="servicetask3">
       <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_2" evaluatesToTypeRef="ItemDefinition_144" language="http://www.java.com/java">${!outputTextFormat}</conditionExpression>
     </sequenceFlow>
