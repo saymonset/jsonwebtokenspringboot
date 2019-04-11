@@ -1,5 +1,6 @@
 package com.service;
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.flowable.common.engine.api.delegate.Expression;
@@ -8,6 +9,13 @@ import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.delegate.DelegateHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import com.model.ProcessInstanceFlow;
+import com.repository.PersonRepository;
+import com.repository.ProcessInstanceFlowRepository;
 public class DetermineBillFormat  implements BusinessRuleTaskDelegate{
 	/**
 	 * 
@@ -18,13 +26,15 @@ public class DetermineBillFormat  implements BusinessRuleTaskDelegate{
     public static List<Expression> ruleIds = new ArrayList<>();
     public static Boolean exclude;
     public static String resultVariableName;
+    
+    
 
     @Override
     public void execute(DelegateExecution execution) {
-    	
+    //	 List<ProcessInstanceFlow>  lista =  processInstanceFlowRepository.findAll();
     	log.info( " = por ahora-------------------------4--------------------------------executionId = " + execution.getProcessInstanceId());
-    	execution.setVariable("outputVariable1", true);
-        execution.setVariable("test", true);
+       execution.setVariable("outputVariable1", false);
+     //   execution.setVariable("test", false);
         DelegateHelper.leaveDelegate(execution);
     }
 

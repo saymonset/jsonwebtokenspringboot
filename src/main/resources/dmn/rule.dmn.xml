@@ -6,21 +6,21 @@
           <text>inputVariable1</text>
         </inputExpression>
       </input>
-      <output id="output1" label="Output 1" name="outputVariable1" typeRef="string"></output>
+      <output id="outputVariable1" label="Output 1" name="outputVariable1" typeRef="boolean"></output>
       <rule id="rule1">
         <inputEntry id="inputEntry1">
-          <text>1</text>
+          <text>7</text>
         </inputEntry>
         <outputEntry id="outputEntry1">
-          <text>"result1"</text>
+          <text>true</text>
         </outputEntry>
       </rule>
       <rule id="rule2">
         <inputEntry id="inputEntry3">
-          <text>== 1</text>
+          <text> 1 </text>
         </inputEntry>
         <outputEntry id="outputEntry2">
-          <text>"result2"</text>
+          <text>false</text>
         </outputEntry>
       </rule>
     </decisionTable>

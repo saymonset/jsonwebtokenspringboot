@@ -56,13 +56,7 @@ public class CanadaService {
     	 variables  =  ruleService.createExecuteDecisionBuilder().decisionKey("simple")
     			 .variable("inputVariable1", 1).executeWithSingleResult();
     	 
-    	 TaskQuery query = taskService.createTaskQuery()
-    			    .processInstanceId(processInstanceFlow.getProcessInstanceId())
-    			    .orderByTaskName()
-    			    .asc();
-
-    			List<Task> tasks = query.list();
-    			tasks.forEach(s->System.out.println(s.getName()));
+ 
     	//  ruleService.
     	 
     	 order = (Order)runtimeService.getVariable(processInstanceFlow.getProcessInstanceId(), "order");
