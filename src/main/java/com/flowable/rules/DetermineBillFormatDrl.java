@@ -23,9 +23,15 @@ public class DetermineBillFormatDrl  implements BusinessRuleTaskDelegate{
 
     @Override
     public void execute(DelegateExecution execution) {
+    	String format = (String)execution.getVariable("format");
     //	 List<ProcessInstanceFlow>  lista =  processInstanceFlowRepository.findAll();
-    	log.info( " = por ahora-------------------------4--------------------------------executionId = " + execution.getProcessInstanceId());
-       execution.setVariable("outputVariable1", false);
+    	log.info( " Determine Bill Format = " + format);
+    	execution.setVariable("outputTextFormat", false);
+    	if (format != null && format.equalsIgnoreCase("text")){
+    		execution.setVariable("outputTextFormat", true);    		
+    	}
+    	
+       
      //   execution.setVariable("test", false);
         DelegateHelper.leaveDelegate(execution);
     }

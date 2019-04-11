@@ -1,40 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" 
- xmlns:flowable="http://flowable.org/bpmn"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
- xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" 
- xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
-  typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
-   <message id="emailreceived." name="Email is received with attached bill."/>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:flowable="http://flowable.org/bpmn" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <message id="emailreceived." name="Email is received with attached bill."></message>
+   <itemDefinition id="ItemDefinition_144" isCollection="false" structureRef="xsd:boolean"/>
   <process id="michaelCenizaProcess" name="My process" isExecutable="true">
     <serviceTask id="servicetask1" name="Determine Bill Format"
-    flowable:class="com.flowable.business.BillAttachmentService"
+     flowable:class="com.flowable.business.BillAttachmentService"
     ></serviceTask>
     <endEvent id="endevent1" name="End"></endEvent>
-    <sequenceFlow id="flow1" sourceRef="servicetask1" targetRef="endevent1"></sequenceFlow>
     <sequenceFlow id="flow2" sourceRef="messagestartevent1" targetRef="servicetask1"></sequenceFlow>
     <startEvent id="messagestartevent1" name="Start">
       <messageEventDefinition messageRef="emailreceived."></messageEventDefinition>
     </startEvent>
+    <businessRuleTask id="businessruletask1" name="Business rule task"
+    
+     flowable:ruleVariablesInput="${inputVariable1}" 
+     flowable:resultVariable="outputTextFormat" 
+     activiti:class="com.flowable.rules.DetermineBillFormatDrl"
+     activiti:exclude="true" 
+    
+    ></businessRuleTask>
+    <sequenceFlow id="flow3" sourceRef="servicetask1" targetRef="businessruletask1"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow4" sourceRef="businessruletask1" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow5" sourceRef="exclusivegateway1" targetRef="servicetask2">
+     <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_1" evaluatesToTypeRef="ItemDefinition_144" language="http://www.java.com/java">${outputTextFormat}</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="servicetask2" name="Parse Bill"
+    flowable:class="com.flowable.business.ParseBillAttachmentService"
+    ></serviceTask>
+    <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="servicetask3">
+      <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_2" evaluatesToTypeRef="ItemDefinition_144" language="http://www.java.com/java">${!outputTextFormat}</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="servicetask3" name="Run OCR on Bill"
+    flowable:class="com.flowable.business.RunOcrAttachmentService"
+    ></serviceTask>
+    <sequenceFlow id="flow7" sourceRef="servicetask3" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="servicetask2" targetRef="endevent1"></sequenceFlow>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_myProcess">
-    <bpmndi:BPMNPlane bpmnElement="myProcess" id="BPMNPlane_myProcess">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_michaelCenizaProcess">
+    <bpmndi:BPMNPlane bpmnElement="michaelCenizaProcess" id="BPMNPlane_michaelCenizaProcess">
       <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
-        <omgdc:Bounds height="55.0" width="105.0" x="250.0" y="160.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="122.0" y="160.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="400.0" y="170.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="560.0" y="170.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="messagestartevent1" id="BPMNShape_messagestartevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="140.0" y="170.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="40.0" y="170.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
-        <omgdi:waypoint x="355.0" y="187.0"></omgdi:waypoint>
-        <omgdi:waypoint x="400.0" y="187.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="businessruletask1" id="BPMNShape_businessruletask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="250.0" y="160.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="400.0" y="168.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask2" id="BPMNShape_servicetask2">
+        <omgdc:Bounds height="55.0" width="105.0" x="470.0" y="50.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask3" id="BPMNShape_servicetask3">
+        <omgdc:Bounds height="55.0" width="105.0" x="438.0" y="270.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
-        <omgdi:waypoint x="175.0" y="187.0"></omgdi:waypoint>
+        <omgdi:waypoint x="75.0" y="187.0"></omgdi:waypoint>
+        <omgdi:waypoint x="122.0" y="187.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="227.0" y="187.0"></omgdi:waypoint>
         <omgdi:waypoint x="250.0" y="187.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="355.0" y="187.0"></omgdi:waypoint>
+        <omgdi:waypoint x="400.0" y="188.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="420.0" y="168.0"></omgdi:waypoint>
+        <omgdi:waypoint x="522.0" y="105.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="420.0" y="208.0"></omgdi:waypoint>
+        <omgdi:waypoint x="490.0" y="270.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="490.0" y="270.0"></omgdi:waypoint>
+        <omgdi:waypoint x="577.0" y="205.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="522.0" y="105.0"></omgdi:waypoint>
+        <omgdi:waypoint x="577.0" y="170.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
