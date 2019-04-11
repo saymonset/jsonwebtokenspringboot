@@ -28,7 +28,7 @@
  
  
     <serviceTask id="servicetask2" name="Parse Bill"
-    flowable:type="mail"
+    
      flowable:class="com.flowable.mail.ParseBill">
      
        <extensionElements>
