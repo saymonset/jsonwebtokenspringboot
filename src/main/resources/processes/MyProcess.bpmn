@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- origin at X=0.0 Y=0.0 -->
 <definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:flowable="http://flowable.org/bpmn" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.3.3.Final-v20170221-1647-B60" targetNamespace="http://www.flowable.org/processdef">
+  <itemDefinition id="ItemDefinition_144" isCollection="false" structureRef="xsd:boolean"/>
   <message id="emailreceived" name="Email is received with attached bill"/>
   <process id="myProcess" name="My process" isExecutable="true">
     <startEvent id="startevent1" name="Email is received with attached bill">
       <outgoing>flow1</outgoing>
       <messageEventDefinition id="MessageEventDefinition_1" messageRef="emailreceived"/>
     </startEvent>
-    <businessRuleTask id="businessruletask1" flowable:ruleVariablesInput="${inputVariable1}" 
-      flowable:resultVariable="outputVariable1"  
-     activiti:class="com.service.DetermineBillFormat"
-      activiti:exclude="true" name="Business rule task">
+    <businessRuleTask id="businessruletask1" flowable:ruleVariablesInput="${inputVariable1}" flowable:resultVariable="outputVariable1" activiti:class="com.flowable.rules.DetermineBillFormatDrl" activiti:exclude="true" name="Business rule task">
       <incoming>flow3</incoming>
       <outgoing>flow6</outgoing>
     </businessRuleTask>
-    <serviceTask id="servicetask1" flowable:class="com.service.BillAttachmentService" name="Service Task">
+    <serviceTask id="servicetask1" flowable:class="com.flowable.business.BillAttachmentService" name="Service Task">
       <incoming>flow1</incoming>
       <outgoing>flow2</outgoing>
     </serviceTask>
@@ -23,13 +21,13 @@
       <incoming>flow9</incoming>
     </endEvent>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="servicetask1"/>
-    <serviceTask id="servicetask2" flowable:class="com.service.BillAttachmentService" name="Service Task">
+    <serviceTask id="servicetask2" flowable:class="com.flowable.business.BillAttachmentService" name="Service Task">
       <incoming>flow2</incoming>
       <outgoing>flow3</outgoing>
     </serviceTask>
     <sequenceFlow id="flow2" sourceRef="servicetask1" targetRef="servicetask2"/>
     <sequenceFlow id="flow3" sourceRef="servicetask2" targetRef="businessruletask1"/>
-    <serviceTask id="servicetask3" flowable:class="com.service.ParseBillAttachmentService" name="Parse Bill">
+    <serviceTask id="servicetask3" flowable:class="com.flowable.business.ParseBillAttachmentService" name="Parse Bill">
       <incoming>flow7</incoming>
       <outgoing>flow5</outgoing>
     </serviceTask>
@@ -41,14 +39,14 @@
     </exclusiveGateway>
     <sequenceFlow id="flow6" sourceRef="businessruletask1" targetRef="exclusivegateway1"/>
     <sequenceFlow id="flow7" sourceRef="exclusivegateway1" targetRef="servicetask3">
-      <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_1">${outputVariable1}</conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_1" evaluatesToTypeRef="ItemDefinition_144" language="http://www.java.com/java">${outputVariable1}</conditionExpression>
     </sequenceFlow>
-    <serviceTask id="servicetask4" flowable:class="com.service.RunOcrAttachmentService" name="Run OCR">
+    <serviceTask id="servicetask4" flowable:class="com.flowable.business.RunOcrAttachmentService" name="Run OCR">
       <incoming>flow8</incoming>
       <outgoing>flow9</outgoing>
     </serviceTask>
     <sequenceFlow id="flow8" sourceRef="exclusivegateway1" targetRef="servicetask4">
-      <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_2">${!outputVariable1}</conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_2" evaluatesToTypeRef="ItemDefinition_144" language="http://www.java.com/java">${!outputVariable1}</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow9" sourceRef="servicetask4" targetRef="endevent1"/>
   </process>

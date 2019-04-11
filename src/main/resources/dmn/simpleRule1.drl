@@ -1,6 +1,6 @@
 package org.activiti.rules.deploytest;
  
-import com.rules.Order
+import com.dto.Order
  
 rule "OrderItemCountZeroOrLess"
      when

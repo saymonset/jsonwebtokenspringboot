@@ -1,10 +1,13 @@
 package com.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Person {
@@ -20,6 +23,9 @@ public class Person {
     private String lastName;
 
     private Date birthDate;
+    
+	@OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+	private List<ProcessInstanceFlow> processInstanceFlows;
 
     public Person() {
     }
@@ -70,4 +76,12 @@ public class Person {
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
+
+	public List<ProcessInstanceFlow> getProcessInstanceFlows() {
+		return processInstanceFlows;
+	}
+
+	public void setProcessInstanceFlows(List<ProcessInstanceFlow> processInstanceFlows) {
+		this.processInstanceFlows = processInstanceFlows;
+	}
 }

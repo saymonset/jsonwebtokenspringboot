@@ -1,4 +1,4 @@
-package com.rules;
+package com.dto;
 
 import java.io.Serializable;
 
