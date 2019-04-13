@@ -100,6 +100,15 @@
     
     
     <sequenceFlow id="flow13" sourceRef="usertask1" targetRef="servicetask4">
+   
+   			 <conditionExpression xsi:type="tFormalExpression"
+        id="FormalExpression_221" evaluatesToTypeRef="ItemDefinition_144" 
+        language="http://www.java.com/java">
+         <![CDATA[
+          ${approved}
+        ]]>
+        </conditionExpression>
+   
     
     </sequenceFlow>
     

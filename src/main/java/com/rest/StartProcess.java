@@ -13,7 +13,7 @@ import com.service.MyService;
 
 @RestController
 @RequestMapping("/flowable")
-public class Process {
+public class StartProcess {
 	 @Autowired
 	 private MyService myService;
 	 
