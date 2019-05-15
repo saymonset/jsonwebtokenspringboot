@@ -18,8 +18,28 @@ run with gradle bootrun
 
 
 Pasos:
+
+Instalar mysql con estos parametros de bd y suuario
+
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/flowable?characterEncoding=UTF-8
+spring.datasource.username=root
+spring.datasource.password=123456
+
+
+
+  Instalar y correr mongodb
+  
+  mongod --config C:\opt\mongodb\mongo.config
+  
+  El archivo mongo.config tiene esta instruccion
+  
+              #store data here
+              dbpath=C:\opt\mongodb\data
+
+  
  1-) Crear un usuario con verbo post
- 
+    
+        
 
  # registers a new user
 curl -H "Content-Type: application/json" -X POST -d '{
@@ -39,35 +59,4 @@ curl -i -H "Content-Type: application/json" -X POST -d '{
 }' http://localhost:8080/login
 
 Si se hace con postman, el json esta en la carpeta test-json en login.json
-
-3-) Se  crea una tarea con el token y verbo post
-
-# issue a POST request, passing the JWT, to create a task
-# remember to replace xxx.yyy.zzz with the JWT retrieved above
-curl -H "Content-Type: application/json" \
--H "Authorization: Bearer xxx.yyy.zzz" \
--X POST -d '{
-    "description": "Buy watermelon"
-}'  http://localhost:8080/tasks
-
-Si se hace con postman, el json esta en la carpeta test-json en jsonbd.json
-
-4 -) 
-
-Se crea un proceso, inernamente colocan al empleado saymon
-http://localhost:8080/process
-
-5-) Se lista las tareas asignadas a saymon
-localhost:8080/tasks?assignee=saymon
-
-
-6-) Prbando ejemplo con jpa
-
-We can now start a new process instance, providing the user name in the POST body:
-
-curl -H "Content-Type: application/json" -d '{"assignee" : "jbarrez"}' http://localhost:8080/process
-And the task list is now fetched using the person ID:
-
-curl http://localhost:8080/tasks?assignee=1
-
-[{"id":"12505","name":"my task"}]
+ 
