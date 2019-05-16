@@ -1,62 +1,32 @@
-# Developing and Securing RESTful APIs with Spring Boot
-This sample application shows how to develop a Restful api with
-SpringBoot and secure it using Spring Security via JSON Web Tokens.
 
-# How To Setup The Application And Run It
-* Make sure you have gradle installed on your system and an IDE. If 
-you don't have an IDE don't worry you can still follow with a text editor and 
-the terminal.
-* Make sure you have Java 10 installed on your system. [Get it here](http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html)
-* Clone the repository using the command `git clone https://github.com/vladimirfomene/springboot-auth-updated.git`
-* Run `gradle bootrun` to build and run the project or run the project from your ide(make sure you build it before running)
+http://blog.enriqueoriol.com/2017/11/httpclient-vs-http-angular.html
 
+https://jwt.io/
 
- Url fuentes 
-https://auth0.com/blog/implementing-jwt-authentication-on-spring-boot/
+# Surveyfrontend
 
-run with gradle bootrun
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
 
+## Development server
 
-Pasos:
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-Instalar mysql con estos parametros de bd y suuario
+## Code scaffolding
 
-spring.datasource.url=jdbc:mysql://127.0.0.1:3306/flowable?characterEncoding=UTF-8
-spring.datasource.username=root
-spring.datasource.password=123456
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
+## Build
 
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-  Instalar y correr mongodb
-  
-  mongod --config C:\opt\mongodb\mongo.config
-  
-  El archivo mongo.config tiene esta instruccion
-  
-              #store data here
-              dbpath=C:\opt\mongodb\data
+## Running unit tests
 
-  
- 1-) Crear un usuario con verbo post
-    
-        
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
- # registers a new user
-curl -H "Content-Type: application/json" -X POST -d '{
-    "username": "admin",
-    "password": "password"
-}' http://localhost:8080/users/sign-up
+## Running end-to-end tests
 
-Si se hace con postman, el json esta en la carpeta test-json
-          sign-up.json, se agrega en body/binary. escojes el archivo
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-2-) Se loguea el usuario para obtener el token
+## Further help
 
-# logs into the application (JWT is generated)
-curl -i -H "Content-Type: application/json" -X POST -d '{
-    "username": "admin",
-    "password": "password"
-}' http://localhost:8080/login
-
-Si se hace con postman, el json esta en la carpeta test-json en login.json
- 
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
